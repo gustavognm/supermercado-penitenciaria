@@ -1,0 +1,33 @@
+<head th:fragment="head(title)">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${title} + ' — Supermercado dos Operários'"></title>
+  <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+</head>
+
+<nav
+  th:fragment="header()"
+  class="topbar"
+>
+  <a class="topbar-brand" th:href="@{/}">
+    <img th:src="@{/images/logo.png}" alt="Supermercado dos Operários" class="topbar-logo" />
+  </a>
+
+  <div class="topbar-nav">
+    <a th:href="@{/}">Início</a>
+    <a th:href="@{/categoria}">Categorias</a>
+    <a th:href="@{/produto}">Produtos</a>
+    <a th:href="@{/cliente}">Clientes</a>
+    <a th:href="@{/detento}">Detentos</a>
+    <a th:href="@{/pedido}">Pedidos</a>
+    <a th:if="${isAdministrador}" th:href="@{/usuario}">Usuários</a>
+  </div>
+
+  <div class="topbar-right" th:if="${usuarioLogado != null}">
+    <span style="color: rgba(255,255,255,.75); font-size: 13px;" th:text="${usuarioLogado}"></span>
+    <form th:action="@{/logout}" method="post" style="margin:0;">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <button type="submit" class="btn-logout">Sair</button>
+    </form>
+  </div>
+</nav>
