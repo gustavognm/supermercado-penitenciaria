@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Clientes')}"></head>
+<body>
+<nav th:replace="~{fragments/head :: header()}"></nav>
+
+<div class="container">
+  <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-title">Clientes</span>
+      <a th:href="@{/cliente/create}" class="btn btn-primary btn-sm">+ Novo Cliente</a>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Cadastro na Penitenciária</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="c : ${clientes}">
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.nome}"></td>
+            <td th:text="${c.cadastroPenitenciaria}"></td>
+            <td th:text="${c.telefone}"></td>
+            <td>
+              <a th:href="@{/cliente/edit/{id}(id=${c.id})}" class="btn btn-secondary btn-sm">Editar</a>
+              <a th:href="@{/cliente/delete/{id}(id=${c.id})}" class="btn btn-danger btn-sm"
+                 onclick="return confirm('Excluir este cliente?')">Excluir</a>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(clientes)}">
+            <td colspan="5">
+              <div class="empty-state">Nenhum cliente cadastrado.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer()}"></footer>
+</body>
+</html>
