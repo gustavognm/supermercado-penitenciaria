@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Detentos')}"></head>
+<body>
+<nav th:replace="~{fragments/head :: header()}"></nav>
+
+<div class="container">
+  <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-title">Detentos</span>
+      <a th:href="@{/detento/create}" class="btn btn-primary btn-sm">+ Novo Detento</a>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Código Infopen</th>
+            <th>Localização</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="d : ${detentos}">
+            <td th:text="${d.id}"></td>
+            <td th:text="${d.nome}"></td>
+            <td th:text="${d.codigoInfopen}"></td>
+            <td th:text="${d.tipoLocalizacao.label} + ' ' + ${d.identificadorLocalizacao} + ', Cela ' + ${d.numeroCela}"></td>
+            <td>
+              <a th:href="@{/detento/edit/{id}(id=${d.id})}" class="btn btn-secondary btn-sm">Editar</a>
+              <a th:href="@{/detento/delete/{id}(id=${d.id})}" class="btn btn-danger btn-sm"
+                 onclick="return confirm('Excluir este detento?')">Excluir</a>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(detentos)}">
+            <td colspan="5">
+              <div class="empty-state">Nenhum detento cadastrado.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer()}"></footer>
+</body>
+</html>
