@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Pedidos')}"></head>
+<body>
+<nav th:replace="~{fragments/head :: header()}"></nav>
+
+<div class="container">
+  <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+
+  <div style="display:flex; gap:8px; margin-bottom:16px;">
+    <a th:href="@{/pedido(tipo='ALA')}" class="btn btn-sm"
+       th:classappend="${tipoAtivo.name() == 'ALA'} ? 'btn-primary' : 'btn-secondary'">Alas</a>
+    <a th:href="@{/pedido(tipo='PAVILHAO')}" class="btn btn-sm"
+       th:classappend="${tipoAtivo.name() == 'PAVILHAO'} ? 'btn-primary' : 'btn-secondary'">Pavilhões</a>
+  </div>
+
+  <div class="table-card">
+    <div class="table-header">
+      <span class="table-title" th:text="'Pedidos — ' + ${tipoAtivo.labelPlural}"></span>
+      <div style="display:flex; gap:8px;">
+        <a th:href="@{/pedido/historico(tipo=${tipoAtivo})}" class="btn btn-secondary btn-sm">Ver Histórico</a>
+        <a th:href="@{/pedido/create}" class="btn btn-primary btn-sm">+ Novo Pedido</a>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Cliente</th>
+            <th>Detento</th>
+            <th>Localização</th>
+            <th>Status</th>
+            <th>Valor Total</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="p : ${pedidos}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.cliente.nome}"></td>
+            <td th:text="${p.detento.nome}"></td>
+            <td th:text="${p.detento.tipoLocalizacao.label} + ' ' + ${p.detento.identificadorLocalizacao} + ', Cela ' + ${p.detento.numeroCela}"></td>
+            <td><span class="badge" th:classappend="${p.status.badgeClass}" th:text="${p.status.label}"></span></td>
+            <td th:text="${'R$ ' + #numbers.formatDecimal(p.valorTotal, 1, 2)}"></td>
+            <td th:text="${#temporals.format(p.dataCriacao, 'dd/MM/yyyy HH:mm')}"></td>
+            <td>
+              <a th:href="@{/pedido/view/{id}(id=${p.id})}" class="btn btn-secondary btn-sm">Ver</a>
+              <a th:href="@{/pedido/delete/{id}(id=${p.id})}" class="btn btn-danger btn-sm"
+                 onclick="return confirm('Excluir este pedido?')">Excluir</a>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(pedidos)}">
+            <td colspan="8">
+              <div class="empty-state" th:text="'Nenhum pedido em andamento para ' + ${#strings.toLowerCase(tipoAtivo.labelPlural)} + '.'"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer()}"></footer>
+</body>
+</html>
