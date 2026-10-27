@@ -1,0 +1,42 @@
+/* Estilos específicos da tela de login — reaproveita as variáveis de cor,
+   fontes e componentes (.card, .form-group, .btn, .alert) já definidos em
+   custom.css. Este arquivo só cuida do que é exclusivo desta tela: o fundo
+   em degradê (igual ao usado no projeto anterior) e a logo. */
+
+body.login-body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background: linear-gradient(135deg, var(--bark), var(--green-d), var(--green));
+  margin: 0;
+  padding: 24px;
+}
+
+.login-page-logo {
+  width: 260px;
+  max-width: 80vw;
+}
+
+.login-card {
+  box-shadow: var(--shadow-m);
+  padding: 40px;
+}
+
+.login-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--bark);
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.login-sub {
+  font-size: 13px;
+  color: var(--text-s);
+  margin-bottom: 26px;
+  text-align: center;
+}
